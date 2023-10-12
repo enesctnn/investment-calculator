@@ -1,6 +1,13 @@
 import styles from './InvesmentResult.module.css';
 
-const InvesmentResult = () => {
+const InvesmentResult = ({ yearlyData, initialInvesment }) => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
   return (
     <table className={styles.result}>
       <thead>
@@ -13,13 +20,26 @@ const InvesmentResult = () => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>YEAR NUMBER</td>
-          <td>TOTAL SAVINGS END OF YEAR</td>
-          <td>INTEREST GAINED IN YEAR</td>
-          <td>TOTAL INTEREST GAINED</td>
-          <td>TOTAL INVESTED CAPITAL</td>
-        </tr>
+        {yearlyData.map((data) => (
+          <tr key={Math.random()}>
+            <td>{data.year}</td>
+            <td>{formatter.format(data.savingsEndOfYear)}</td>
+            <td>{formatter.format(data.yearlyInterest)}</td>
+            <td>
+              {formatter.format(
+                (data.savingsEndOfYear -
+                  -initialInvesment -
+                  data.yearlyContribution) *
+                  data.year
+              )}
+            </td>
+            <td>
+              {formatter.format(
+                (initialInvesment + data.yearlyContribution) * data.year
+              )}
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

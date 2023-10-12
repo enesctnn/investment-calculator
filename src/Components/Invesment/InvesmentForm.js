@@ -2,11 +2,11 @@ import { useState } from 'react';
 import ActionButtons from './ActionButtons/ActionButtons';
 import styles from './InvesmentForm.module.css';
 
-const InvestForm = () => {
-  const [currentSavings, setCurrentSavings] = useState(0);
-  const [yearlySavings, setYearlySavings] = useState(0);
-  const [expectedReturn, setExpectedReturn] = useState(0);
-  const [duration, setDuration] = useState(0);
+const InvestForm = ({ onSubmit, onReset }) => {
+  const [currentSavings, setCurrentSavings] = useState(+1000);
+  const [yearlySavings, setYearlySavings] = useState(+1200);
+  const [expectedReturn, setExpectedReturn] = useState(+100);
+  const [duration, setDuration] = useState(+7);
 
   const inputChangeHandler = (identifier, value) => {
     if (identifier === 'currentSave') setCurrentSavings(+value);
@@ -18,11 +18,26 @@ const InvestForm = () => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const invesmentData ={
+    const invesmentData = {
+      currentSavings: +currentSavings,
+      yearlyContribution: +yearlySavings,
+      expectedReturn: +expectedReturn,
+      duration: +duration,
+    };
+    onSubmit(invesmentData);
 
-    }
+    setCurrentSavings('');
+    setYearlySavings('');
+    setExpectedReturn('');
+    setDuration('');
   };
-
+  const resetButtonHandler = () => {
+    setCurrentSavings(+1000);
+    setYearlySavings(+1200);
+    setExpectedReturn(+100);
+    setDuration(+7);
+    onReset();
+  };
   return (
     <form className={styles.form} onSubmit={submitHandler}>
       <div className={styles['input-group']}>
@@ -34,6 +49,7 @@ const InvestForm = () => {
             onChange={(props) => {
               inputChangeHandler('currentSave', props.target.value);
             }}
+            value={currentSavings}
           />
         </p>
         <p>
@@ -44,6 +60,7 @@ const InvestForm = () => {
             onChange={(props) => {
               inputChangeHandler('yearlySave', props.target.value);
             }}
+            value={yearlySavings}
           />
         </p>
       </div>
@@ -55,9 +72,11 @@ const InvestForm = () => {
           <input
             type="number"
             id="expected-return"
+            max="100"
             onChange={(props) => {
               inputChangeHandler('expectedReturn', props.target.value);
             }}
+            value={expectedReturn}
           />
         </p>
         <p>
@@ -68,10 +87,11 @@ const InvestForm = () => {
             onChange={(props) => {
               inputChangeHandler('duration', props.target.value);
             }}
+            value={duration}
           />
         </p>
       </div>
-      <ActionButtons />
+      <ActionButtons onReset={resetButtonHandler} />
     </form>
   );
 };

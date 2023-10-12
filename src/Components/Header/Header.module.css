@@ -1,6 +1,7 @@
 .header {
   text-align: center;
   margin: 3rem auto;
+  user-select: none;
 }
 
 .header img {
@@ -12,4 +13,5 @@
 
 .header h1 {
   font-size: 1.5rem;
+  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5);
 }

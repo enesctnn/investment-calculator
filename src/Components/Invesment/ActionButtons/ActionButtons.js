@@ -1,9 +1,9 @@
 import styles from './ActionButtons.module.css';
 
-const ActionButtons = () => {
+const ActionButtons = ({ onReset }) => {
   return (
     <p className={styles.actions}>
-      <button type="reset" className={styles.buttonAlt}>
+      <button type="reset" className={styles.buttonAlt} onClick={onReset}>
         Reset
       </button>
       <button type="submit" className={styles.button}>
